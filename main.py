@@ -1,5 +1,7 @@
 import sys
-
+from webbrowser import open as webopen
+from os import path
+from datetime import datetime
 def algorytm(ciag):
     length = len(ciag)
     for x in range(length):
@@ -32,21 +34,22 @@ def make_html(inputs,outputs):
             table += "    <td>{0}</td>\n".format(column.strip())
         table += "  </tr>\n"
     table += "</table>"
-    with open("raport.html", "w") as file:
+    file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    with open(f"{file_name}.html", "w") as file:
         file.writelines(table)
+    webopen(path.abspath(f"{file_name}.html"))
     
-def algorithm():
+def generate_io():
     files = "".join(sys.argv[1:])[:-1].split(",")
-    inputs = files
+    inputs = []
     outputs = []
-    print(files)
     for i,file in enumerate(files,1):
         ciag = read_file(f"input/{file}")[0]
+        inputs.append(ciag)
         with open(f"output/output{i}.txt","w") as file:
             file.write(algorytm(ciag))
             outputs.append(algorytm(ciag))
-    print(list(zip(inputs,outputs)))
     return [inputs, outputs]
-    
-data = algorithm()
+  
+data = generate_io()
 make_html(data[0],data[1])
