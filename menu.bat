@@ -28,7 +28,7 @@ goto menu
 :backup
 cls
 if exist backup (
-    rmdir /s /q backup > nul
+    rmdir /s /q backup
 )
 mkdir backup
 for %%f in (*.html) do (

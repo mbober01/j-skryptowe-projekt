@@ -2,6 +2,8 @@ import sys
 from webbrowser import open as webopen
 from os import path
 from datetime import datetime
+
+
 def algorytm(ciag):
     length = len(ciag)
     for x in range(length):
@@ -18,7 +20,6 @@ def algorytm(ciag):
 def read_file(f_name):
     with open(f_name) as file:
         return file.readlines()
-
 
 def make_html(inputs,outputs):
     table = "<table bgcolor='black'>\n"
@@ -51,5 +52,6 @@ def generate_io():
             outputs.append(algorytm(ciag))
     return [inputs, outputs]
   
+
 data = generate_io()
 make_html(data[0],data[1])
