@@ -3,7 +3,7 @@ from webbrowser import open as webopen
 from os import path
 from datetime import datetime
 
-
+# algorytm zwracajacy niepowtarzalnosc ciagu
 def algorytm(ciag):
     length = len(ciag)
     for x in range(length):
@@ -14,13 +14,14 @@ def algorytm(ciag):
             part2 = ciag[index:index+temp]
             if part1 == part2:
                 return f"nie jest niepowtarzalny {part1}"
-
+            
     return "jest niepowtarzalny"
-
+# funkcja zczytujaca dane z pliku
 def read_file(f_name):
     with open(f_name) as file:
         return file.readlines()
-
+    
+# funkcja tworzaca raport html i otwierajaca go w oknie przegladarki
 def make_html(inputs,outputs):
     table = "<table bgcolor='black'>\n"
     header = ["inputs","outputs"]
@@ -36,10 +37,11 @@ def make_html(inputs,outputs):
         table += "  </tr>\n"
     table += "</table>"
     file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    with open(f"{file_name}.html", "w") as file:
+    with open(f"raports/{file_name}.html", "w") as file:
         file.writelines(table)
-    webopen(path.abspath(f"{file_name}.html"))
-    
+    webopen(path.abspath(f"raports/{file_name}.html"))
+
+# funkcja generujaca zczytujaca pliki input i wywolujaca nich algorytm oraz generujaca pliki output.txt   
 def generate_io():
     files = "".join(sys.argv[1:])[:-1].split(",")
     inputs = []
@@ -52,6 +54,6 @@ def generate_io():
             outputs.append(algorytm(ciag))
     return [inputs, outputs]
   
-
-data = generate_io()
-make_html(data[0],data[1])
+if __name__ == "__main__":
+    data = generate_io()
+    make_html(data[0],data[1])

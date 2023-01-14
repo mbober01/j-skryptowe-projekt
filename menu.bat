@@ -6,16 +6,21 @@ echo Menu
 echo 1. Uruchom program
 echo 2. Backup
 echo 3. Informacje o projekcie
-echo 4. Wyjście
+echo 4. Wyjscie
 set /p select=Wybor: 
 IF %select%==1 GOTO run 
 IF %select%==2 GOTO backup 
 IF %select%==3 goto info
-IF %select%==4 goto exit 
-goto exit
+IF %select%==4 goto exit
+goto menu
 
 :run
 cls
+if not exist raports mkdir raports
+if exist output (
+    rmdir /s /q output
+)
+mkdir output
 set result=
 for %%i in (input/*) do (
     set result=!result!%%i,
@@ -31,14 +36,15 @@ if exist backup (
     rmdir /s /q backup
 )
 mkdir backup
-for %%f in (*.html) do (
-    xcopy %%f backup 
-)
+xcopy raports backup\raports /e /i
+xcopy input backup\input /e /i
+xcopy output backup\output /e /i
+
 echo:
-echo wykonano backup raportow
+echo wykonano backup
 pause 
 goto menu 
-
+   
 :info
 cls
 echo autor projektu: Michal Bober
@@ -55,3 +61,4 @@ goto menu
 :exit
 echo Koniec
 pause
+cls
